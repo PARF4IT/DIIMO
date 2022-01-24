@@ -1,9 +1,11 @@
 import torch
+from modules.train import train as tr
 
 
 def check_opt(args):
     passer = []
     worker = str(args.worker)
+    train = str(args.train)
 
     if worker.lower() == 'gpu':
         if torch.cuda.is_available():
@@ -17,6 +19,12 @@ def check_opt(args):
         worker = "cpu"
         print(f"{worker}를 사용합니다.")
 
-    passer.append(worker)
+    if train.lower() == 'y':
+        train = "y"
+    else:
+        train = "n"
 
-    return passer
+    passer.append(worker)
+    passer.append(train)
+
+    tr.run(passer)
